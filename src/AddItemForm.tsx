@@ -1,12 +1,14 @@
 import { ControlPoint } from '@mui/icons-material'
 import { Button, IconButton, TextField } from '@mui/material'
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react'
+import React, { useState, ChangeEvent, KeyboardEvent, memo } from 'react'
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void
 }
 
-function AddItemForm(props: AddItemFormPropsType) {
+const AddItemForm = memo((props: AddItemFormPropsType) => {
+  console.log('AddITemForm render');
+  
   const [title, setTitle] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +16,9 @@ function AddItemForm(props: AddItemFormPropsType) {
   }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
+    if(error !== null) {
+      setError(null)
+    }
     if (e.charCode === 13) {
       if (title.trim()) {
         props.addItem(title)
@@ -49,7 +53,7 @@ function AddItemForm(props: AddItemFormPropsType) {
 
     </div>
   )
-}
+})
 
 
 export default AddItemForm
